@@ -1,18 +1,13 @@
 # requests for wonolo api
 class Request
   class << self
-    def where(resource_path, query = {})
-      response, status = get_json(resource_path, query)
-      status == 200 ? response : errors(response)
-    end
-
-    def get(id)
-      response = get_json(id)
+    def get(path, query = {})
+      response = get_json(path, query)
       response.status == 200 ? values(response) : errors(response)
     end
 
     def values(response)
-      JSON.parse(response.body).values[0]
+      JSON.parse(response.body)
     end
 
     def errors(response)
