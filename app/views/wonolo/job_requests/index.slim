@@ -1,0 +1,43 @@
+div.content
+  div.container-fluid
+    div.row
+      div.col-lg-12
+        div.box
+          div.box-header.no-border
+            h3.box-title
+            div.box-tools
+              ul.pagination.pagination-sm
+                li.page-item
+                  - if @page == '1'
+                    a.page-link href="#" <<
+                  - else
+                    = link_to '<<', wonolo_job_requests_path(page: @page.to_i - 1)
+                li.page-item
+                  - if @job_requests.count == Wonolo::JobRequest::PER_PAGE
+                    = link_to '>>', wonolo_job_requests_path(page: @page.to_i + 1)
+                  - else
+                    a.page-link href="#" >>
+          div.box-body.p-0
+            table.table.table-striped.table-valign-middle
+              thead
+                tr
+                  th Name
+                  th Classification
+                  th Wage
+                  th Start Time
+                  th Duration
+                  th Address
+                  th
+              tbody
+                - @job_requests.each do |req|
+                  tr
+                    td = req.request_name
+                    td = req.classification
+                    td = req.wage
+                    td = req.start_time.to_time.strftime('%Y-%m-%d at %H:%M:%S')
+                    td
+                      = (req.duration.to_i / 60)
+                      span< hours
+                    td = req.address
+                    td
+                      = link_to 'View Jobs', wonolo_jobs_path(request_id: req.id, name: req.request_name), class: 'btn btn-primary', role: 'button'

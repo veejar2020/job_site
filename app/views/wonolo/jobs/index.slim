@@ -1,0 +1,45 @@
+div.content
+  div.container-fluid
+    div.row.job-content
+      div.col-lg-12
+        = link_to 'Back', wonolo_job_requests_path, class: 'btn btn-primary', role: 'button'
+        div.box
+          div.box-header.no-border
+            h3.box-title
+              = "Jobs for #{@request_name}"
+            div.box-tools
+              ul.pagination.pagination-sm
+                li.page-item
+                  - if @page == '1'
+                    a.page-link href="#" <<
+                  - else
+                    = link_to '<<', wonolo_jobs_path(page: @page.to_i - 1)
+                li.page-item
+                  - if @jobs.count == Wonolo::JobRequest::PER_PAGE
+                    = link_to '>>', wonolo_jobs_path(page: @page.to_i + 1)
+                  - else
+                    a.page-link href="#" >>
+          div.box-body.p-0
+            table.table.table-striped.table-valign-middle
+              thead
+                tr
+                  th Worker
+                  th Employer
+                  th Hourly Rate
+                  th Finished At
+              tbody
+                - @jobs.each do |req|
+                  tr
+                    td
+                      span<
+                        = req.worker.first_name
+                      span<
+                        = req.worker.last_name
+                    td
+                      span<
+                        = req.employer.first_name
+                      span<
+                        = req.employer.last_name
+                    td = req.w2_hourly_rate
+                    td = req.finished_at.to_time.strftime('%Y-%m-%d at %H:%M:%S')
+
