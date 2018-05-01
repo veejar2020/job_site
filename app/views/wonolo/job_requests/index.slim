@@ -7,15 +7,17 @@ div.content
             h3.box-title
             div.box-tools
               ul.pagination.pagination-sm
-                li.page-item
-                  - if @page == '1'
+                - if @page == '1'
+                  li.page-item.disabled
                     a.page-link href="#" <<
-                  - else
+                - else
+                  li.page-item
                     = link_to '<<', wonolo_job_requests_path(page: @page.to_i - 1)
-                li.page-item
-                  - if @job_requests.count == Wonolo::JobRequest::PER_PAGE
+                - if @job_requests.count == Wonolo::JobRequest::PER_PAGE
+                  li.page-item
                     = link_to '>>', wonolo_job_requests_path(page: @page.to_i + 1)
-                  - else
+                - else
+                  li.page-item.disabled
                     a.page-link href="#" >>
           div.box-body.p-0
             table.table.table-striped.table-valign-middle
