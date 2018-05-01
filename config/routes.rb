@@ -1,3 +1,7 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  root :to => "wonolo/job_requests#index"
+    namespace :wonolo do
+    resources :jobs
+    resources :job_requests
+  end
 end
